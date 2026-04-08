@@ -30,11 +30,17 @@ overlay.addEventListener('click', closeDrawer);
 navBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const target = document.getElementById(btn.dataset.target);
-    if (target) {
+    if (!target) return;
+
+    if (window.innerWidth <= 680) {
+      // Cerrar drawer primero, luego scrollear una vez que la animación terminó
+      closeDrawer();
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    } else {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    // En mobile: cerrar drawer tras navegar
-    if (window.innerWidth <= 680) closeDrawer();
   });
 });
 
